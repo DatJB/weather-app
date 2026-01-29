@@ -1,10 +1,10 @@
 const ErrorScreen = ({ onRetry }) => {
   return (
-    <div className="w-full h-300 flex flex-col items-center justify-center text-center gap-4">
+    <div className="w-full h-300 flex flex-col -mt-100 items-center justify-center text-center gap-4">
       
-      <div className="text-gray-400 text-3xl"><img src="/assets/images/icon-error.svg" /></div>
+      <div className="text-gray-400 text-3xl"><img src="/assets/images/icon-error.svg" className="w-8 h-8"/></div>
 
-      <h2 className="text-xl font-semibold text-white">
+      <h2 className="text-4xl font-[Bricola] font-semibold text-white">
         Something went wrong
       </h2>
 
@@ -13,7 +13,7 @@ const ErrorScreen = ({ onRetry }) => {
         Please try again in a few moments.
       </p>
 
-      <button onClick={onRetry} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2f2f4a] text-white text-sm hover:bg-[#3a3a5c] transition"
+      <button onClick={() => window.location.reload()} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2f2f4a] text-white text-sm hover:bg-[#3a3a5c] cursor-pointer transition"
       >
         <span><img src="/assets/images/icon-retry.svg" /></span> Retry
       </button>

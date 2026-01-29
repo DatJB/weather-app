@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorScreen from "./ErrorScreen";
 
@@ -15,6 +15,8 @@ const Weather = () => {
   // Loading
   const [loading, setLoading] = useState(true);
   
+  const cache = useRef([]);
+  const [showSuggest, setShowSuggest] = useState(false);
 
   const Item = ({ label, active, onClick }) => (
     <li
@@ -48,6 +50,9 @@ const Weather = () => {
     setCityName(geoData.results[0].name);
     setCountry(geoData.results[0].country);
 
+    cache.current.unshift(city);
+    cache.current = cache.current.slice(0, 4);
+
     const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,precipitation,weather_code&hourly=temperature_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code&timezone=auto`);
 
     const weatherData = await weatherRes.json();
@@ -65,14 +70,12 @@ const Weather = () => {
   const TodaySkeleton = () => (
     <div className="w-170 h-55 rounded-xl animate-pulse bg-[#25253D] flex flex-col items-center justify-center gap-1">
       
-      {/* Dots */}
       <div className="flex gap-1.5">
         <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce [animation-delay:0ms]" />
         <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce [animation-delay:150ms]" />
         <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce [animation-delay:300ms]" />
       </div>
 
-      {/* Text */}
       <span className="text-sm text-gray-400 mt-2">Loading...</span>
     </div>
   );
@@ -263,7 +266,31 @@ const Weather = () => {
         <div className="relative">
           <img src="assets/images/icon-search.svg" alt="search"className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70"/>
 
-          <input type="text" value={city} placeholder="Search for a place..." className="w-70 mm:w-100 sm:w-80 h-11 pl-11 pr-4 rounded-lg bg-[#2A2A44] text-white text-sm placeholder-white/60 outline-none focus:ring-2 focus:ring-indigo-400" onChange={(e) => setCity(e.target.value)}/>
+          <input type="text" value={city} placeholder="Search for a place..." className="w-70 mm:w-100 sm:w-80 h-11 pl-11 pr-4 rounded-lg bg-[#2A2A44] text-white text-sm placeholder-white/60 outline-none focus:ring-2 focus:ring-indigo-400" onChange={(e) => setCity(e.target.value)} onFocus={() => {
+            if(cache.current.length > 0) (
+              setShowSuggest(true)
+            )
+          }} onBlur={() => {
+            setTimeout(() => setShowSuggest(false), 120);
+          }}/>
+
+          {showSuggest && cache.current.length > 0 && (
+            <div className="absolute mt-2 w-full bg-[#2A2A44] rounded-lg shadow-xl z-50">
+              {cache.current.map((name, index) => (
+                <div
+                  key={index}
+                  className="px-4 py-2 hover:bg-[#32325A] cursor-pointer"
+                  onClick={() => {
+                    setCity(name);
+                    setShowSuggest(false);
+                  }}
+                >
+                  {name}
+                </div>
+              ))}
+            </div>
+          )}
+
         </div>
 
         <button type="submit" className="w-70 sm:w-25 h-11 px-6 rounded-lg bg-linear-to-r from-indigo-500 to-blue-500 text-white font-medium hover:opacity-90 cursor-pointer">
@@ -394,7 +421,7 @@ const Weather = () => {
                       setSelectedDay(i);
                       setOpenDay(false);
                     }}
-                    className="px-4 py-2 hover:bg-[#32325A] rounded-2xl mt-px mb-px cursor-pointer"
+                    className={`px-4 py-2 hover:bg-[#32325A] rounded-2xl mt-px mb-px cursor-pointer ${i === selectedDay ? "bg-[#32325A]" : ""}`}
                   >
                     {new Date(day).toLocaleDateString("en-US", { weekday: "long" })}
                   </div>
