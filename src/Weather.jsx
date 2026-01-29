@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ErrorScreen from "./ErrorScreen";
 
 const Weather = () => {
   const navigate = useNavigate();
@@ -11,13 +12,17 @@ const Weather = () => {
     precip: "mm",
   });
 
+  // Loading
+  const [loading, setLoading] = useState(true);
+  
+
   const Item = ({ label, active, onClick }) => (
     <li
       onClick={onClick}
       className={`flex justify-between items-center px-4 py-2 cursor-pointer hover:bg-[#32325A] rounded-xl ml-1 mr-1 mt-1 ${active ? "bg-[#32325A]" : ""}`}
     >
       <span>{label}</span>
-      {active && <span><img src="./src/assets/images/icon-checkmark.svg"/></span>}
+      {active && <span><img src="assets/images/icon-checkmark.svg"/></span>}
     </li>
   );
 
@@ -27,10 +32,17 @@ const Weather = () => {
   const [weather, setWeather] = useState(null);
   const [country, setCountry] = useState("Vietnam");
 
+  const [error, setError] = useState(false);
+
   const fetchWeather = async () => {
+    setLoading(true);
+
     const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`);
     const geoData = await geoRes.json();
-    if (!geoData.results) return;
+    if (!geoData.results) {
+      setError(true);
+      return;
+    }
 
     const { latitude, longitude } = geoData.results[0];
     setCityName(geoData.results[0].name);
@@ -40,7 +52,55 @@ const Weather = () => {
 
     const weatherData = await weatherRes.json();
     setWeather(weatherData);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   }; 
+
+  const Skeleton = ({ className }) => (
+    <div className={`animate-pulse bg-[#2F2F4A] rounded-xl ${className}`} />
+  );
+
+  const TodaySkeleton = () => (
+    <div className="w-170 h-55 rounded-xl animate-pulse bg-[#25253D] flex flex-col items-center justify-center gap-1">
+      
+      {/* Dots */}
+      <div className="flex gap-1.5">
+        <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce [animation-delay:0ms]" />
+        <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce [animation-delay:150ms]" />
+        <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce [animation-delay:300ms]" />
+      </div>
+
+      {/* Text */}
+      <span className="text-sm text-gray-400 mt-2">Loading...</span>
+    </div>
+  );
+
+  const InfoSkeleton = () => (
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-6">
+      {[...Array(4)].map((_, i) => (
+        <Skeleton key={i} className="w-39 h-20" />
+      ))}
+    </div>
+  );
+
+  const DailySkeleton = () => (
+    <div className="grid grid-cols-3 sm:grid-cols-7 gap-2 mt-3">
+      {[...Array(7)].map((_, i) => (
+        <Skeleton key={i} className="w-23 sm:w-20 h-30" />
+      ))}
+    </div>
+  );
+
+  const HourlySkeleton = () => (
+    <div className="space-y-2 mt-4">
+      {[...Array(8)].map((_, i) => (
+        <Skeleton key={i} className="w-75 h-12 ml-4.5" />
+      ))}
+    </div>
+  );
+
 
   // Hourly forecast
   const [openDay, setOpenDay] = useState(false);
@@ -130,16 +190,17 @@ const Weather = () => {
       : value;
   };
 
+  if (error) return <ErrorScreen/>
   return (
     <div className="mb-10">
       <div className="flex place-content-around mt-10 gap-10 sm:gap-110">
-        <img src="./src/assets/images/logo.svg" onClick={() => navigate("/")} style={{ cursor: "pointer" }} alt="logo"/>
+        <img src="assets/images/logo.svg" onClick={() => navigate("/")} style={{ cursor: "pointer" }} alt="logo"/>
 
         <div className="dropdown">
           <button className={`w-27 border-0 bg-[#25253D] h-9 rounded-md items-center hover:border cursor-pointer ${open ? "border-2" : ""}`} onClick={() => setOpen(!open)}>
-            <img className="inline mr-2" src="./src/assets/images/icon-units.svg"/>
+            <img className="inline mr-2" src="assets/images/icon-units.svg"/>
             <p className="inline text-sm">Units</p>
-            <img className="inline ml-2" src="./src/assets/images/icon-dropdown.svg" />
+            <img className="inline ml-2" src="assets/images/icon-dropdown.svg" />
           </button>
 
           {
@@ -200,7 +261,7 @@ const Weather = () => {
           fetchWeather();
       }}>
         <div className="relative">
-          <img src="./src/assets/images/icon-search.svg" alt="search"className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70"/>
+          <img src="assets/images/icon-search.svg" alt="search"className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70"/>
 
           <input type="text" value={city} placeholder="Search for a place..." className="w-70 mm:w-100 sm:w-80 h-11 pl-11 pr-4 rounded-lg bg-[#2A2A44] text-white text-sm placeholder-white/60 outline-none focus:ring-2 focus:ring-indigo-400" onChange={(e) => setCity(e.target.value)}/>
         </div>
@@ -210,16 +271,19 @@ const Weather = () => {
         </button>
       </form>
 
-
       <div className="flex flex-col sm:flex-row place-content-around gap-10 mt-12 ml-5 sm:ml-40 sm:mr-45">
         <div>
+
+          { loading ? (
+            <TodaySkeleton />
+          ) : (
           <div className="relative w-170 h-55 rounded-2xl overflow-hidden">
             <div
               className="
                 w-90
                 sm:w-full h-full
-                bg-[url('./src/assets/images/bg-today-small.svg')]
-                sm:bg-[url('./src/assets/images/bg-today-large.svg')]
+                bg-[url('assets/images/bg-today-small.svg')]
+                sm:bg-[url('assets/images/bg-today-large.svg')]
                 bg-cover bg-center rounded-r-[17px] sm:rounded-r-0
               "
             ></div>
@@ -237,7 +301,7 @@ const Weather = () => {
 
                   
                     <div className="absolute ml-100">
-                      <img className="w-24 h-24" src={`./src/assets/images/${weatherCode(0)}`} />
+                      <img className="w-24 h-24" src={`assets/images/${weatherCode(0)}`} />
                     </div>
 
                     <div className="text-white text-6xl font-bold">
@@ -251,41 +315,47 @@ const Weather = () => {
               </div>
               
           </div>
+          )}
 
+          
           <div className="grid grid-cols-2 sm:grid-cols-4 place-content-around gap-1 sm:gap-2.5">
-            <div className="bg-[#25253F] mt-6 rounded-lg w-39 h-20">
+            <div className={`bg-[#25253F] mt-6 rounded-lg w-39 h-20`}>
                 <div className="text-[#A8A6BB] text-sm mt-2.5 ml-3">Feels Like</div>
                 <div className="text-xl mt-3 ml-3">
-                  {weather?.current?.apparent_temperature ? `${convertTemp(weather.current.apparent_temperature).toFixed(0)}°` : "__"}
+                  {weather?.current?.apparent_temperature && !loading ? `${convertTemp(weather.current.apparent_temperature).toFixed(0)}°` : "__"}
                 </div>
             </div>
 
-            <div className="bg-[#25253F] mt-6 rounded-lg w-39 h-20">
+            <div className={`bg-[#25253F] mt-6 rounded-lg w-39 h-20`}>
                 <div className="text-[#A8A6BB] text-sm mt-2.5 ml-3">Humidity</div>
                 <div className="text-xl mt-3 ml-3">
-                  {weather?.current?.relative_humidity_2m ? `${weather.current.relative_humidity_2m}%` : "__"}
+                  {weather?.current?.relative_humidity_2m && !loading ? `${weather.current.relative_humidity_2m}%` : "__"}
                 </div>
             </div>
 
-            <div className="bg-[#25253F] mt-6 rounded-lg w-39 h-20">
+            <div className={`bg-[#25253F] mt-6 rounded-lg w-39 h-20`}>
                 <div className="text-[#A8A6BB] text-sm mt-2.5 ml-3">Wind</div>
                 <div className="text-xl mt-3 ml-3">
-                  {weather?.current?.wind_speed_10m ? `${convertWind(weather.current.wind_speed_10m).toFixed(1)} ${units.wind}` : "__"}
+                  {weather?.current?.wind_speed_10m && !loading ? `${convertWind(weather.current.wind_speed_10m).toFixed(1)} ${units.wind}` : "__"}
                 </div>
             </div>
 
-            <div className="bg-[#25253F] mt-6 rounded-lg -mr-3 w-39 h-20">
+            <div className={`bg-[#25253F] mt-6 rounded-lg w-39 h-20`}>
                 <div className="text-[#A8A6BB] text-sm mt-2.5 ml-3">Precipitatiion</div>
                 <div className="text-xl mt-3 ml-3">
-                  {weather?.current?.apparent_temperature ? `${convertPrecip(weather.current.precipitation).toFixed(0)} ${units.precip}` : "__"}
+                  {weather?.current?.apparent_temperature && !loading ? `${convertPrecip(weather.current.precipitation).toFixed(0)} ${units.precip}` : "__"}
                 </div>
             </div>
           </div>
+          
 
           <div className="font-[550] mt-8">
             Daily forecast
           </div>
 
+          { loading ? (
+            <DailySkeleton />
+          ) : (
           <div className=" text-white grid grid-cols-3 sm:grid-cols-7 place-content-around mt-3 mb-3 sm:-ml-1 sm:-mr-2.5 gap-2">
             {weather?.daily?.time?.slice(0, 7).map((date, index) => (
               <div key={date} className="bg-[#25253F] rounded-lg w-23 sm:w-20 h-30 mb-3">
@@ -294,7 +364,7 @@ const Weather = () => {
                 </div>
 
                 <div className="w-15 ml-2">
-                  <img src={`./src/assets/images/${weatherCode(index)}`} />
+                  <img src={`assets/images/${weatherCode(index)}`} />
                 </div>
 
                 <div className="flex place-content-around">
@@ -304,15 +374,16 @@ const Weather = () => {
               </div>
             ))}
           </div>
+          )}
 
         </div>
 
         <div className="bg-[#25253F] rounded-2xl w-85 h-128 -mt-4 sm:mt-0">
           <div className="flex place-content-between mt-4 ml-6 mr-6">
             <div className="font-[550] mt-1">Hourly forecast</div>
-            <button onClick={() => setOpenDay(!openDay)} className="bg-[#3D3B5E] rounded-md w-29 h-7 flex items-center justify-center gap-2 cursor-pointer hover:border">
-              {new Date(days[selectedDay]).toLocaleDateString("en-US", { weekday: "long" })}
-              <img src="./src/assets/images/icon-dropdown.svg" className="ml-1 -mr-1"/>
+            <button onClick={() => setOpenDay(!openDay)} className={`bg-[#3D3B5E] rounded-md ${loading ? "w-12 animate-pulse" : "w-30" } h-7 flex items-center justify-center gap-2 cursor-pointer hover:border`}>
+              {loading ? "-" : new Date(days[selectedDay]).toLocaleDateString("en-US", { weekday: "long" })}
+              <img src="assets/images/icon-dropdown.svg" className="ml-1 -mr-1"/>
             </button>
 
             {openDay && (
@@ -332,13 +403,16 @@ const Weather = () => {
             )}
           </div>
 
+          { loading ? (
+            <HourlySkeleton />
+          ) : (
           <div className="mt-4 space-y-2">
             {hoursOfSelectedDay.map((hour, i) => (
               
               <div key={i} className="flex items-center justify-between bg-[#30304A] rounded-lg w-75 ml-4.5 h-12 px-4 py-2">
                 <div className="flex items-center gap-3">
                   <img
-                    src={`/src/assets/images/${weatherCode(hour.code)}`}
+                    src={`assets/images/${weatherCode(hour.code)}`}
                     className="w-6 h-6"
                   />
 
@@ -353,6 +427,7 @@ const Weather = () => {
               </div>
             ))}
           </div>
+          )}
 
         </div>
 
