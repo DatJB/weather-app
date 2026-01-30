@@ -275,11 +275,11 @@ const Weather = () => {
           }}/>
 
           {showSuggest && cache.current.length > 0 && (
-            <div className="absolute mt-2 w-full bg-[#2A2A44] rounded-lg shadow-xl z-50">
+            <div className="absolute mt-2 w-full bg-[#2A2A44] rounded-lg   z-50">
               {cache.current.map((name, index) => (
                 <div
                   key={index}
-                  className="px-4 py-2 hover:bg-[#32325A] cursor-pointer"
+                  className="px-4 py-2 hover:bg-[#32325A] hover:rounded-lg cursor-pointer"
                   onClick={() => {
                     setCity(name);
                     setShowSuggest(false);
