@@ -8,12 +8,18 @@
 
 @font-face {
   font-family: "DM Sans";
-  src: url("assets/fonts/DM_Sans/static/DMSans-Regular.ttf") format("truetype");
+  src: url("/assets/fonts/DM_Sans/static/DMSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "DM-SemiBold";
+  src: url("/assets/fonts/DM_Sans/static/DMSans-SemiBold.ttf") format("truetype");
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Bricola";
-  src: url("assets/fonts/Bricolage_Grotesque/static/BricolageGrotesque-Bold.ttf") format("truetype");
+  src: url("/assets/fonts/Bricolage_Grotesque/static/BricolageGrotesque-Bold.ttf") format("truetype");
   font-weight: 600;
 }

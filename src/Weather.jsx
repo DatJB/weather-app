@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ErrorScreen from "./ErrorScreen";
+import ErrorScreen from "./Components/common/ErrorScreen";
 
 const Weather = () => {
   const navigate = useNavigate();
@@ -197,7 +197,7 @@ const Weather = () => {
   return (
     <div className="mb-10">
       <div className="flex place-content-around mt-10 gap-10 sm:gap-110">
-        <img src="assets/images/logo.svg" onClick={() => navigate("/")} style={{ cursor: "pointer" }} alt="logo"/>
+        <img src="assets/images/logo.svg" onClick={() => navigate("/weather-app")} style={{ cursor: "pointer" }} alt="logo"/>
 
         <div className="dropdown">
           <button className={`w-27 border-0 bg-[#25253D] h-9 rounded-md items-center hover:border cursor-pointer ${open ? "border-2" : ""}`} onClick={() => setOpen(!open)}>
@@ -264,7 +264,7 @@ const Weather = () => {
           fetchWeather();
       }}>
         <div className="relative">
-          <img src="assets/images/icon-search.svg" alt="search"className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70"/>
+          <img src="./assets/images/icon-search.svg" alt="search"className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70"/>
 
           <input type="text" value={city} placeholder="Search for a place..." className="w-70 mm:w-100 sm:w-80 h-11 pl-11 pr-4 rounded-lg bg-[#2A2A44] text-white text-sm placeholder-white/60 outline-none focus:ring-2 focus:ring-indigo-400" onChange={(e) => setCity(e.target.value)} onFocus={() => {
             if(cache.current.length > 0) (
@@ -309,8 +309,8 @@ const Weather = () => {
               className="
                 w-90
                 sm:w-full h-full
-                bg-[url('assets/images/bg-today-small.svg')]
-                sm:bg-[url('assets/images/bg-today-large.svg')]
+                bg-[url('./assets/images/bg-today-small.svg')]
+                sm:bg-[url('./assets/images/bg-today-large.svg')]
                 bg-cover bg-center rounded-r-[17px] sm:rounded-r-0
               "
             ></div>
