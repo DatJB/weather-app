@@ -2,7 +2,7 @@
 
 A modern and responsive weather web application that provides real-time weather, hourly forecasts, and 7-day forecasts for any location worldwide.
 
-The app supports geolocation-based weather, city search with suggestions, and unit conversions, all built with React and Tailwind CSS, powered by the Open-Meteo API.
+The app supports geolocation-based weather, city search with suggestions, and unit conversions, all built with React and Tailwind CSS, powered by the *[Open-Meteo](https://open-meteo.com)* API.
 
 ## Features 
 
