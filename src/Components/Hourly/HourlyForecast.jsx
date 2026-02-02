@@ -49,7 +49,7 @@ const HourlyForecast = ({ weather, loading, units }) => {
                 </button>
 
                 {openDay && (
-                <div className="absolute right-0 mt-13 border-[0.5px] bg-[#25253F] rounded-lg w-40 text-sm z-50 mr-9 sm:mr-50">
+                <div className="absolute right-0 mt-13 border-[0.5px] bg-[#25253F] rounded-lg w-40 text-sm z-50 mr-9 sm:mr-95 md:mr-29">
                     {days.map((day, i) => (
                     <div key={day}
                         onClick={() => {

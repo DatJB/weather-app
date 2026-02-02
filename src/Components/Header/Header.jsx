@@ -6,7 +6,7 @@ const Header = ({ units, setUnits }) => {
 
     return (
         <section className="mb-10">
-            <div className="flex place-content-around mt-10 gap-10 sm:gap-110">
+            <div className="flex place-content-center mt-10 gap-10 sm:gap-85 md:gap-180">
             <img src="assets/images/logo.svg" onClick={() => navigate("/weather-app")} style={{ cursor: "pointer" }} alt="logo"/>
 
             <div className="dropdown">
@@ -18,7 +18,7 @@ const Header = ({ units, setUnits }) => {
 
               {
                 open && (
-                  <div className="absolute right-0 mt-2 mr-3 sm:mr-40 w-56 bg-[#25253D] rounded-lg shadow-xl text-sm z-999">
+                  <div className="absolute right-0 mt-2 mr-3 sm:mr-7 md:mr-30 w-56 bg-[#25253D] rounded-lg shadow-xl text-sm z-999">
                   
                     <div className="text-[#A8A6BB] px-4 mt-2">Temperature</div>
                     <div className="border-b border-white/10 py-1">

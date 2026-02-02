@@ -46,7 +46,7 @@ const App = () => {
         
 
           { notFound ? < NotFound /> : (
-            <div className="flex flex-col sm:flex-row place-content-around gap-10 mt-12 ml-5 sm:ml-40 sm:mr-45 mb-10">
+            <div className="flex flex-col md:flex-row place-content-center gap-10 mt-12 ml-5  mb-10">
               <div>
                 <TodayInfo units={units} loading={loading} weather={weather} cityName={cityName} country={country} />
                 <DailyForecast weather={weather} loading={loading} units={units} />

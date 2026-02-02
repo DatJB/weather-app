@@ -29,7 +29,7 @@ const TodayInfo = ({ units, loading, weather, cityName, country }) => {
           <div className="relative w-170 h-55 rounded-2xl overflow-hidden">
             <div
               className="
-                w-90
+                w-82
                 sm:w-full h-full
                 bg-[url('./assets/images/bg-today-small.svg')]
                 sm:bg-[url('./assets/images/bg-today-large.svg')]
@@ -38,26 +38,27 @@ const TodayInfo = ({ units, loading, weather, cityName, country }) => {
             ></div>
 
               <div className="">
-                <div className="absolute inset-0 flex flex-col gap-1 sm:flex-row sm:justify-between items-center px-10">
+                <div className="absolute inset-0 grid grid-cols-1 ml-10 sm:ml-0 sm:grid-cols-3 gap-1 sm:flex-row justify-between items-center px-10">
                   <div>
                     <h2 className="text-white text-2xl font-semibold">
                       {cityName}, {country}
                     </h2>
+                    
                     <p className="text-white/70 mt-2">
                       {formattedDate}
                     </p>
-                </div>
+                  </div>
 
                   
-                    <div className="absolute ml-100">
-                      <img className="w-24 h-24" src={`assets/images/${WeatherCode(0, weather)}`} />
-                    </div>
+                  <div className="absolute mt-20 sm:mt-0 ml-5 sm:ml-100">
+                    <img className="w-24 h-24" src={`assets/images/${WeatherCode(0, weather)}`} />
+                  </div>
 
-                    <div className="text-white text-6xl font-bold">
-                      {
-                        weather?.current?.temperature_2m ? convertTemp(weather.current.temperature_2m).toFixed(0) : 20
-                      }°
-                    </div>
+                  <div className="text-white text-6xl font-bold -mt-12 sm:mt-0 ml-21 sm:ml-70">
+                    {
+                      weather?.current?.temperature_2m ? convertTemp(weather.current.temperature_2m).toFixed(0) : 20
+                    }°
+                  </div>
                   
                 </div>
 
