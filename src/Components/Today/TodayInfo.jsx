@@ -38,7 +38,7 @@ const TodayInfo = ({ units, loading, weather, cityName, country }) => {
             ></div>
 
               <div className="">
-                <div className="absolute inset-0 grid grid-cols-1 ml-10 sm:ml-0 sm:grid-cols-3 gap-1 sm:flex-row justify-between items-center px-10">
+                <div className="absolute inset-0 grid grid-cols-1 ml-10 sm:ml-0 sm:grid-cols-3 gap-1 justify-between items-center px-10">
                   <div>
                     <h2 className="text-white text-2xl font-semibold">
                       {cityName}, {country}
@@ -50,11 +50,11 @@ const TodayInfo = ({ units, loading, weather, cityName, country }) => {
                   </div>
 
                   
-                  <div className="absolute mt-20 sm:mt-0 ml-5 sm:ml-100">
+                  <div className="absolute mt-20 sm:mt-0 ml-5 sm:ml-110">
                     <img className="w-24 h-24" src={`assets/images/${WeatherCode(0, weather)}`} />
                   </div>
 
-                  <div className="text-white text-6xl font-bold -mt-12 sm:mt-0 ml-21 sm:ml-70">
+                  <div className="text-white text-6xl font-bold -mt-12 sm:mt-0 ml-21 sm:ml-80">
                     {
                       weather?.current?.temperature_2m ? convertTemp(weather.current.temperature_2m).toFixed(0) : 20
                     }°

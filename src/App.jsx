@@ -4,7 +4,7 @@ import useWeather from "./hooks/useWeather";
 import Header from "./Components/Header/Header";
 import SearchBar from "./Components/Search/SearchBar";
 import NotFound from "./Components/common/NotFound";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ErrorScreen from "./Components/common/ErrorScreen";
 import TodayInfo from "./Components/Today/TodayInfo";
 import DailyForecast from "./Components/Daily/DailyForecast";
@@ -33,6 +33,36 @@ const App = () => {
     setCountry(result.location.country);
   };
 
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      handleSearch("Hanoi");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        const res = await fetch(
+           `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
+        );
+        const data = await res.json();
+
+        if (data.results && data.results.length > 0) {
+          handleSearch(data.results[0].name);
+        } else {
+          handleSearch("Hanoi");
+        }
+      },
+
+      // Refuse
+      () => {
+        handleSearch("Hanoi");
+      }
+    );
+  }, []);
+
+
   return (
     <main>
       <Header units={units} setUnits={setUnits}/>
@@ -58,6 +88,6 @@ const App = () => {
       )}
     </main>
   );
-}
+};
 
 export default App;
