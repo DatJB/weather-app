@@ -31,8 +31,8 @@ const TodayInfo = ({ units, loading, weather, cityName, country }) => {
               className="
                 w-82
                 sm:w-full h-full
-                bg-[url('./assets/images/bg-today-small.svg')]
-                sm:bg-[url('./assets/images/bg-today-large.svg')]
+                bg-[url('/assets/images/bg-today-small.svg')]
+                sm:bg-[url('/assets/images/bg-today-large.svg')]
                 bg-cover bg-center rounded-r-[17px] sm:rounded-r-0
               "
             ></div>
