@@ -26,11 +26,10 @@ const TodayInfo = ({ units, loading, weather, cityName, country }) => {
             { loading ? (
             <TodaySkeleton />
           ) : (
-          <div className="relative w-170 h-55 rounded-2xl overflow-hidden">
+          <div className="relative h-55 rounded-2xl overflow-hidden">
             <div
               className="
-                w-82
-                sm:w-full h-full
+                w-full h-full
                 bg-[url('/assets/images/bg-today-small.svg')]
                 sm:bg-[url('/assets/images/bg-today-large.svg')]
                 bg-cover bg-center rounded-r-[17px] sm:rounded-r-0
@@ -50,7 +49,7 @@ const TodayInfo = ({ units, loading, weather, cityName, country }) => {
                   </div>
 
                   
-                  <div className="absolute mt-20 sm:mt-0 ml-5 sm:ml-105">
+                  <div className="absolute mt-20 sm:mt-0 ml-5 sm:ml-105 sm:mr-10">
                     <img className="w-24 h-24" src={`assets/images/${WeatherCode(0, weather)}`} />
                   </div>
 
@@ -65,9 +64,9 @@ const TodayInfo = ({ units, loading, weather, cityName, country }) => {
               </div>
               
           </div>
+
           )}
 
-          
           <div className="grid grid-cols-2 sm:grid-cols-4 place-content-around gap-1 sm:gap-2.5">
             <div className={`bg-[#25253F] mt-6 rounded-lg w-39 h-20`}>
                 <div className="text-[#A8A6BB] text-sm mt-2.5 ml-3">Feels Like</div>
