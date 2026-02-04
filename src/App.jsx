@@ -43,13 +43,15 @@ const App = () => {
       async (position) => {
         const { latitude, longitude } = position.coords;
 
-        const res = await fetch(
-           `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
-        );
-        const data = await res.json();
+        const res = await fetch(`
+          https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
 
-        if (data.results && data.results.length > 0) {
-          handleSearch(data.results[0].name);
+        const data = await res.json(); 
+        
+        const city = data.address.city || data.address.town || data.address.village;
+
+        if (city) {
+          handleSearch(city);
         } else {
           handleSearch("Hanoi");
         }
