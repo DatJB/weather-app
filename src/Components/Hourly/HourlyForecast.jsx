@@ -10,16 +10,17 @@ const HourlyForecast = ({ weather, loading, units }) => {
 
     const hourlyByDay = {};
 
-    if (weather?.hourly?.time)
-    weather.hourly.time.forEach((time, i) => {
-        const date = time.split("T")[0];
-        if (!hourlyByDay[date]) hourlyByDay[date] = [];
-        hourlyByDay[date].push({
-        time,
-        temp: weather.hourly.temperature_2m[i],
-        code: weather.hourly.weather_code[i],
+    if (weather?.hourly?.time) {
+        weather.hourly.time.forEach((time, i) => {
+            const date = time.split("T")[0];
+            if (!hourlyByDay[date]) hourlyByDay[date] = [];
+            hourlyByDay[date].push({
+                time,
+                temp: weather.hourly.temperature_2m[i],
+                code: weather.hourly.weather_code[i],
+            });
         });
-    });
+    }
 
     const days = Object.keys(hourlyByDay);
     let hoursOfSelectedDay = [];
@@ -28,16 +29,18 @@ const HourlyForecast = ({ weather, loading, units }) => {
         const now = new Date();
         const selectedDate = days[selectedDay];
 
-        hoursOfSelectedDay = hourlyByDay[selectedDate]
-        .filter(item => {
+        const todayLocal = now.toLocaleDateString("en-CA"); // YYYY-MM-DD
+
+        hoursOfSelectedDay = hourlyByDay[selectedDate].filter((item) => {
             const t = new Date(item.time);
-            if (selectedDate === now.toISOString().split("T")[0]) {
-            return t >= now;
+
+            if (selectedDate === todayLocal) {
+                return t >= now;
             }
             return true;
-        })
-        // .slice(0, 8);
+        });
     }
+
 
     return (
         <section className="bg-[#25253F] rounded-2xl w-85 h-128 sm:mt-0">
