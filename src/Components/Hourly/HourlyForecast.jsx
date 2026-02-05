@@ -36,7 +36,7 @@ const HourlyForecast = ({ weather, loading, units }) => {
             }
             return true;
         })
-        .slice(0, 8);
+        // .slice(0, 8);
     }
 
     return (
@@ -68,10 +68,10 @@ const HourlyForecast = ({ weather, loading, units }) => {
             { loading ? (
                 <HourlySkeleton />
             ) : (
-            <div className="mt-4 space-y-2">
+            <div className="mt-4 space-y-2 overflow-y-auto max-h-112 custom-scroll">
                 {hoursOfSelectedDay.map((hour, i) => (
                 
-                <div key={i} className="flex items-center justify-between bg-[#30304A] rounded-lg w-75 ml-4.5 h-12 px-4 py-2">
+                <div key={i} className="flex items-center justify-between bg-[#30304A] rounded-lg w-75 ml-4.5 h-12 px-4 py-2 mb-2">
                     <div className="flex items-center gap-3">
                     <img
                         src={`assets/images/${WeatherCode(hour.code, weather)}`}
