@@ -29,7 +29,7 @@ const TodayInfo = ({ units, loading, weather, cityName, country }) => {
           <div className="relative h-55 rounded-2xl overflow-hidden">
             <div
               className="
-                w-[94%] sm:w-full h-full
+                w-[92%] sm:w-full h-full
                 bg-[url('/assets/images/bg-today-small.svg')]
                 sm:bg-[url('/assets/images/bg-today-large.svg')]
                 bg-cover bg-position-[70%_center] rounded-r-[17px] sm:rounded-r-0
