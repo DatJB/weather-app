@@ -7,12 +7,6 @@
 }
 
 @font-face {
-  font-family: "DM Sans";
-  src: url("/assets/fonts/DM_Sans/static/DMSans-Regular.ttf") format("truetype");
-  font-weight: 400;
-}
-
-@font-face {
   font-family: "DM-SemiBold";
   src: url("/assets/fonts/DM_Sans/static/DMSans-SemiBold.ttf") format("truetype");
   font-weight: 400;
