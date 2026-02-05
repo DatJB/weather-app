@@ -22,7 +22,7 @@ const App = () => {
     precip: "mm",
   });
 
-  const { loading, error, notFound, cache, fetchWeather } = useWeather();
+  const { loading, error, setError, notFound, cache, fetchWeather } = useWeather();
 
   const handleSearch = async (city) => {
     const result = await fetchWeather(city);
@@ -40,28 +40,33 @@ const App = () => {
     }
 
     navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
+        async (position) => {
+          try {
+            const { latitude, longitude } = position.coords;
 
-        const res = await fetch(`
-          https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+            const res = await fetch(`
+              https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
 
-        const data = await res.json(); 
-        
-        const city = data.address.city || data.address.town || data.address.village;
+            const data = await res.json(); 
+            
+            const city = data.address.city || data.address.town || data.address.village;
 
-        if (city) {
-          handleSearch(city);
-        } else {
+            if (city) {
+              handleSearch(city);
+            } else {
+              handleSearch("Hanoi");
+            }
+          } 
+          catch(exception) {
+            setError(true);
+          }
+        },
+
+        // Refuse
+        () => {
           handleSearch("Hanoi");
         }
-      },
-
-      // Refuse
-      () => {
-        handleSearch("Hanoi");
-      }
-    );
+      );
   }, []);
 
 

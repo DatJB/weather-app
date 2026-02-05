@@ -46,7 +46,7 @@ const useWeather = () => {
   }; 
 
   return {
-    weather, loading, error, notFound, cache, fetchWeather,
+    weather, loading, error, setError, notFound, cache, fetchWeather,
   };
 };
 
