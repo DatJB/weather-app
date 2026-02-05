@@ -8,7 +8,7 @@ const ErrorScreen = ({ onRetry }) => {
         
         <div className="text-gray-400 text-3xl"> <ErrorIcon /> </div>
 
-        <h2 className="text-4xl font-[Bricola] font-semibold text-white">
+        <h2 className="text-3xl sm:text-4xl font-[Bricola] font-semibold text-white">
           Something went wrong
         </h2>
 
