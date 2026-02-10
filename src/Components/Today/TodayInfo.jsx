@@ -7,19 +7,20 @@ const TodayInfo = ({ units, loading, weather, cityName, country }) => {
     const { convertTemp, convertWind, convertPrecip } = useUnitConvert(units);
 
     const [formattedDate, setFormattedDate] = useState("");
-      useEffect(() => {
-        if (!weather?.current?.time) return;
-    
-        const date = new Date(weather.current.time);
-        const formatDate = date.toLocaleDateString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-    
-        setFormattedDate(formatDate);
-      }, [weather]);
+
+    useEffect(() => {
+      if (!weather?.current?.time) return;
+  
+      const date = new Date(weather.current.time);
+      const formatDate = date.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+  
+      setFormattedDate(formatDate);
+    }, [weather]);
 
     return (
         <section>

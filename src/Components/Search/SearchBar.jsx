@@ -16,7 +16,7 @@ const SearchBar = ({ city, setCity, cache, onSearch }) => {
 
                 <input type="text" value={city} placeholder="Search for a place..." className="w-70 mm:w-100 sm:w-80 h-11 pl-11 pr-4 rounded-lg bg-[#2A2A44] text-white text-sm placeholder-white/60 outline-none focus:ring-2 focus:ring-indigo-400" onChange={(e) => setCity(e.target.value)} onFocus={() => {
                     if(cache.current.length > 0) (
-                    setShowSuggest(true)
+                        setShowSuggest(true)
                     )
                 }} onBlur={() => {
                     setTimeout(() => setShowSuggest(false), 120);
@@ -31,9 +31,8 @@ const SearchBar = ({ city, setCity, cache, onSearch }) => {
                         onClick={() => {
                             setCity(name);
                             setShowSuggest(false);
-                        }}
-                        >
-                        {name}
+                        }}>
+                            {name}
                         </div>
                     ))}
                     </div>
@@ -42,7 +41,7 @@ const SearchBar = ({ city, setCity, cache, onSearch }) => {
                 </div>
 
                 <button type="submit" className="w-70 sm:w-25 h-11 px-6 rounded-lg bg-linear-to-r from-indigo-500 to-blue-500 text-white font-medium hover:opacity-90 cursor-pointer">
-                Search
+                    Search
                 </button>
             </form>
         </section>

@@ -35,9 +35,9 @@ const HourlyForecast = ({ weather, loading, units }) => {
             const t = new Date(item.time);
 
             if (selectedDate === todayLocal) {
-                return t >= now;
+                return t >= now; // time after current time
             }
-            return true;
+            return true; // all day
         });
     }
 

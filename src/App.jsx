@@ -24,6 +24,7 @@ const App = () => {
 
   const { loading, error, setError, notFound, cache, fetchWeather } = useWeather();
 
+  // Search weather by city
   const handleSearch = async (city) => {
     const result = await fetchWeather(city);
     if (!result) return;
@@ -33,12 +34,14 @@ const App = () => {
     setCountry(result.location.country);
   };
 
+  // Fetch initial weather
   useEffect(() => {
     if (!navigator.geolocation) {
       handleSearch("Hanoi");
       return;
     }
 
+    // Get current position
     navigator.geolocation.getCurrentPosition(
         async (position) => {
           try {
@@ -51,7 +54,7 @@ const App = () => {
             
             let city = data.address.state || data.address.province || data.address.region;
 
-            city = city.replace(/\s*Province\s*$/i, "");
+            city = city.replace(/\s*Province\s*$/i, ""); // remove 'Province' at the end
 
             if (city) {
               handleSearch(city);

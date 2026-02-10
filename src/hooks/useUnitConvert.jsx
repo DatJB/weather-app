@@ -1,4 +1,5 @@
 const useUnitConvert = (units) => {
+  // Convert temperature 
   const convertTemp = (value) => {
     if (value == null) return "";
     return units.temp === "C"
@@ -6,6 +7,7 @@ const useUnitConvert = (units) => {
       : Math.round(value * 9 / 5 + 32);
   };
 
+  // Convert wind speed
   const convertWind = (value) => {
     if (value == null) return "";
     return units.wind === "km/h"
@@ -13,6 +15,7 @@ const useUnitConvert = (units) => {
       : Math.round(value / 1.609);
   };
 
+  // Convert precipitation
   const convertPrecip = (value) => {
     if (value == null) return "";
     return units.precip === "mm"
