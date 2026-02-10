@@ -49,7 +49,9 @@ const App = () => {
 
             const data = await res.json(); 
             
-            const city = data.address.city || data.address.town || data.address.village;
+            let city = data.address.state || data.address.province || data.address.region;
+
+            city = city.replace(/\s*Province\s*$/i, "");
 
             if (city) {
               handleSearch(city);
