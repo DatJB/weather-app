@@ -21,7 +21,7 @@ const DailyForecast = ({ weather, loading, units }) => {
                     {new Date(date).toLocaleDateString("en-US", { weekday: "short" })}
                     </div>
 
-                    <div className="w-15 sm:ml-2 ml-3.5">
+                    <div className="w-15 ml-3.5 sm:ml-2">
                     <img src={`assets/images/${WeatherCode(index, weather)}`} />
                     </div>
 
