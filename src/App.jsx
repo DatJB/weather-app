@@ -47,18 +47,17 @@ const App = () => {
           try {
             const { latitude, longitude } = position.coords;
 
-            const res = await fetch(`
-              https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&language=en&format=json`);
 
             const data = await res.json(); 
             
-            let city = data.address.state || data.address.province || data.address.region;
-
-            city = city.replace(/\s*Province\s*$/i, ""); // remove 'Province' at the end
-
-            if (city) {
+            if (data.results && data.results.length > 0)
+            {
+              const location = data.results[0];
+              const city = location.name || location.admin1 || "Hanoi";
               handleSearch(city);
-            } else {
+            }
+            else {
               handleSearch("Hanoi");
             }
           } 
